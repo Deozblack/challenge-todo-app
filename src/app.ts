@@ -1,10 +1,13 @@
 import express, { type Request, type Response } from 'express';
+import { UserRouter } from './modules/users/infrastructure/http/User.routes.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
 
 app.use(express.json());
+
+app.use(UserRouter);
 
 app.use((err: unknown, req: Request, res: Response) => {
   if (err instanceof Error) {
