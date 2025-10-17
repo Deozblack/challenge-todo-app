@@ -5,6 +5,7 @@ import type { FindUserByEmailDto } from '../../application/dtos/FindUserByEmail.
 import type { CreateUserDto } from '../../application/dtos/CreateUser.dto.js';
 import type { UpdateUserDto } from '../../application/dtos/UpdateUser.dto.js';
 import type { DeleteUserDto } from '../../application/dtos/DeleteUser.dto.js';
+import { UserNotFoundException } from '../../domain/exceptions/UserNotFound.exception.js';
 
 export class UserController {
   async findAll(req: Request, res: Response, next: NextFunction) {
@@ -25,6 +26,9 @@ export class UserController {
 
       return res.json(user.toPlainObject()).status(200);
     } catch (error) {
+      if (error instanceof UserNotFoundException) {
+        return res.status(404).json({ message: error.message });
+      }
       next(error);
     }
   }
@@ -36,6 +40,9 @@ export class UserController {
       const user = await ServiceContainer.user.findByEmail.execute(email);
       return res.json(user.toPlainObject()).status(200);
     } catch (error) {
+      if (error instanceof UserNotFoundException) {
+        return res.status(404).json({ message: error.message });
+      }
       next(error);
     }
   }

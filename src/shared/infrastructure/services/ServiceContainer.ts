@@ -5,15 +5,17 @@ import { FindUserByEmailUseCase } from '../../../modules/users/application/FindU
 import { FindUserByIdUseCase } from '../../../modules/users/application/FindUserById.use-case.js';
 import { UpdateUserUseCase } from '../../../modules/users/application/UpdateUser.use-case.js';
 import { FirestoreUserRepository } from '../../../modules/users/infrastructure/persistence/firestore/FirestoreUserRepository.js';
+import { BcryptRepository } from '../bcrypt/Bcrypt.repository.js';
 
 const repository = new FirestoreUserRepository();
+const bcrypt = new BcryptRepository();
 
 export const ServiceContainer = {
   user: {
     findById: new FindUserByIdUseCase(repository),
     findAll: new FindAllUsersUseCase(repository),
     findByEmail: new FindUserByEmailUseCase(repository),
-    create: new CreateUserUseCase(repository),
+    create: new CreateUserUseCase(repository, bcrypt),
     update: new UpdateUserUseCase(repository),
     delete: new DeleteUserUseCase(repository),
   },

@@ -7,14 +7,15 @@ import { UserId } from '../../../domain/value-objects/UserId.js';
 import { UserName } from '../../../domain/value-objects/UserName.js';
 import { UserPassword } from '../../../domain/value-objects/UserPassword.js';
 import { UserUpdatedAt } from '../../../domain/value-objects/UserUpdatedAt.js';
+import { Timestamp } from 'firebase-admin/firestore';
 
 interface FirestoreUserDocument {
   id: string;
   name: string;
   email: string;
   password: string;
-  published_at: Date;
-  updated_at: Date;
+  published_at: Timestamp;
+  updated_at: Timestamp;
 }
 
 export class FirestoreUserRepository implements UserRepository {
@@ -65,8 +66,8 @@ export class FirestoreUserRepository implements UserRepository {
       name: user.name.value,
       email: user.email.value,
       password: user.password.value,
-      published_at: user.createdAt.value,
-      updated_at: user.updatedAt.value,
+      published_at: Timestamp.fromDate(user.createdAt.value),
+      updated_at: Timestamp.fromDate(user.updatedAt.value),
     };
   }
 
@@ -76,8 +77,8 @@ export class FirestoreUserRepository implements UserRepository {
       new UserName(doc.name),
       new UserEmail(doc.email),
       new UserPassword(doc.password),
-      new UserCreatedAt(doc.published_at),
-      new UserUpdatedAt(doc.updated_at)
+      new UserCreatedAt(doc.published_at.toDate()),
+      new UserUpdatedAt(doc.updated_at.toDate())
     );
   }
 }
