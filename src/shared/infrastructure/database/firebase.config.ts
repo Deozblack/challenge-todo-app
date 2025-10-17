@@ -1,6 +1,15 @@
-import * as admin from 'firebase-admin';
+import admin from 'firebase-admin';
+import 'dotenv/config';
 
-const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT as string;
+const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
+
+if (!serviceAccountKey) {
+  throw new Error(
+    'FIREBASE_SERVICE_ACCOUNT_KEY environment variable is not set'
+  );
+}
+
+const serviceAccount = JSON.parse(serviceAccountKey);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
