@@ -1,0 +1,36 @@
+<header
+  class="relative z-20 bg-white/10 backdrop-blur-xl border-b border-white/20"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center py-4">
+      <div class="flex items-center space-x-4">
+        <app-logo></app-logo>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <div class="hidden sm:flex items-center space-x-3">
+          <div class="text-right">
+            <p class="text-sm font-medium text-white">
+              {{ currentUser.name || 'Usuario' }}
+            </p>
+            <p class="text-xs text-gray-300">
+              {{ currentUser.email || 'user@example.com' }}
+            </p>
+          </div>
+          <div
+            class="w-8 h-8 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center"
+          >
+            <span class="text-white text-sm font-medium">
+              {{ (currentUser.name || 'U').charAt(0).toUpperCase() }}
+            </span>
+          </div>
+        </div>
+
+        <button (click)="logout()" class="btn-secondary">
+          <i class="pi pi-sign-out mr-2"></i>
+          Cerrar Sesión
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
