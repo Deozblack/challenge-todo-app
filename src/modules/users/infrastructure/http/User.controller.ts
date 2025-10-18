@@ -15,7 +15,7 @@ export class UserController {
 
       return res.json(usersPlainObject).status(200);
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
@@ -29,7 +29,7 @@ export class UserController {
       if (error instanceof UserNotFoundException) {
         return res.status(404).json({ message: error.message });
       }
-      next(error);
+      return next(error);
     }
   }
 
@@ -43,7 +43,7 @@ export class UserController {
       if (error instanceof UserNotFoundException) {
         return res.status(404).json({ message: error.message });
       }
-      next(error);
+      return next(error);
     }
   }
 
@@ -56,7 +56,7 @@ export class UserController {
         message: 'User created successfully',
       });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
@@ -72,7 +72,7 @@ export class UserController {
         message: 'User updated successfully',
       });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
@@ -85,7 +85,7 @@ export class UserController {
         message: 'User deleted successfully',
       });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 }

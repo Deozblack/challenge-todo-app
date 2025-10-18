@@ -24,7 +24,7 @@ export class AuthMiddleware {
 
       req.user = decodedToken;
 
-      next();
+      return next();
     } catch {
       return res.status(403).json({
         message: 'Forbidden: Invalid or expired token',
