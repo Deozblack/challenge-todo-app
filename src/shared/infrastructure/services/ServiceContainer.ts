@@ -14,18 +14,18 @@ import { UpdateTaskUseCase } from '../../../modules/tasks/application/UpdateTask
 import { FirestoreTaskRepository } from '../../../modules/tasks/infrastructure/persistence/firestore/FirestoreTaskRepository.js';
 import { BcryptRepository } from '../bcrypt/Bcrypt.repository.js';
 
-const repository = new FirestoreUserRepository();
 const bcrypt = new BcryptRepository();
+const userRepository = new FirestoreUserRepository();
 const taskRepository = new FirestoreTaskRepository();
 
 export const ServiceContainer = {
   user: {
-    findById: new FindUserByIdUseCase(repository),
-    findAll: new FindAllUsersUseCase(repository),
-    findByEmail: new FindUserByEmailUseCase(repository),
-    create: new CreateUserUseCase(repository, bcrypt),
-    update: new UpdateUserUseCase(repository),
-    delete: new DeleteUserUseCase(repository),
+    findById: new FindUserByIdUseCase(userRepository),
+    findAll: new FindAllUsersUseCase(userRepository),
+    findByEmail: new FindUserByEmailUseCase(userRepository),
+    create: new CreateUserUseCase(userRepository, bcrypt),
+    update: new UpdateUserUseCase(userRepository, bcrypt),
+    delete: new DeleteUserUseCase(userRepository),
   },
   task: {
     findById: new FindTaskByIdUseCase(taskRepository),

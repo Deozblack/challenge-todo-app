@@ -6,15 +6,20 @@ import { UserId } from '../domain/value-objects/UserId.js';
 import { UserName } from '../domain/value-objects/UserName.js';
 import { UserPassword } from '../domain/value-objects/UserPassword.js';
 import type { UpdateUserDto } from './dtos/UpdateUser.dto.js';
+import type { BcryptPort } from '../../../shared/domain/bcrypt.port.js';
 
 export class UpdateUserUseCase {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly bcrypt: BcryptPort
+  ) {}
 
   async execute(userData: UpdateUserDto): Promise<void> {
     const userId = new UserId(userData.id);
     const userName = new UserName(userData.name);
     const userEmail = new UserEmail(userData.email);
-    const userPassword = new UserPassword(userData.password);
+    const encryptedPassword = await this.bcrypt.encrypt(userData.password);
+    const userPassword = new UserPassword(encryptedPassword);
 
     const existingUser = await this.userRepository.findById(userId);
     if (!existingUser) {
