@@ -2,11 +2,13 @@ import express, { type Request, type Response } from 'express';
 import { UserRouter } from './modules/users/infrastructure/http/User.routes.js';
 import { TaskRouter } from './modules/tasks/infrastructure/http/Task.routes.js';
 import { AuthMiddleware } from './shared/infrastructure/middlewares/Auth.middleware.js';
+import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 app.use(AuthMiddleware.verify);
