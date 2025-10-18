@@ -1,11 +1,11 @@
 import admin from 'firebase-admin';
 import 'dotenv/config';
 
-const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
+const serviceAccountKey = process.env.SERVICE_ACCOUNT_CREDENTIALS;
 
 if (!serviceAccountKey) {
   throw new Error(
-    'FIREBASE_SERVICE_ACCOUNT_KEY environment variable is not set'
+    'SERVICE_ACCOUNT_CREDENTIALS environment variable is not set'
   );
 }
 

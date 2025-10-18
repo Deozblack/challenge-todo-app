@@ -1,18 +1,20 @@
 {
   "type": "module",
-  "name": "challenge-todo-api",
+  "name": "challenge-todo-app",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon",
-    "build": "rimraf ./dist && tsc",
-    "start": "pnpm run build && node dist/app.js",
-    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,md}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,md}\"",
-    "lint": "eslint src --ext .ts",
-    "lint:fix": "eslint src --ext .ts --fix",
+    "dev": "cd functions && pnpm run dev",
+    "build": "cd functions && pnpm run build",
+    "start": "cd functions && pnpm run start",
+    "deploy": "cd functions && pnpm run deploy",
+    "serve": "cd functions && pnpm run serve",
+    "format": "prettier --write \"functions/src/**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"functions/src/**/*.{ts,tsx,js,jsx,json,md}\"",
+    "lint": "cd functions && pnpm run lint",
+    "lint:fix": "cd functions && pnpm run lint:fix",
     "prepare": "husky"
   },
   "keywords": [],
@@ -22,7 +24,7 @@
   "devDependencies": {
     "@eslint/js": "9.37.0",
     "@types/bcrypt": "6.0.0",
-    "@types/cors": "^2.8.19",
+    "@types/cors": "2.8.19",
     "@types/express": "5.0.3",
     "@types/node": "24.8.1",
     "dotenv": "17.2.3",
@@ -39,7 +41,7 @@
   },
   "dependencies": {
     "bcrypt": "6.0.0",
-    "cors": "^2.8.5",
+    "cors": "2.8.5",
     "express": "5.1.0",
     "firebase-admin": "13.5.0"
   }

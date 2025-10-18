@@ -1,7 +1,7 @@
 import { setGlobalOptions } from 'firebase-functions';
 import { onRequest } from 'firebase-functions/v2/https';
 import * as logger from 'firebase-functions/logger';
-import { app } from '../../src/app.js';
+import { app } from './app.js';
 
 setGlobalOptions({
   maxInstances: 10,
