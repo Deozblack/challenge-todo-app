@@ -1,22 +1,4 @@
-<form class="space-y-6">
-  <!-- Campo Name -->
-  <div class="space-y-2">
-    <label for="name" class="label-text"> Nombre completo </label>
-    <div class="relative">
-      <input
-        id="name"
-        type="text"
-        name="name"
-        required
-        placeholder="Jhon Doe"
-        class="input-text"
-      />
-      <div class="absolute right-3 top-1/2 -translate-y-1/2">
-        <i class="pi pi-user w-5 h-5 text-gray-400"></i>
-      </div>
-    </div>
-  </div>
-
+<form class="space-y-6" [formGroup]="registerForm" (submit)="register()">
   <!-- Campo Email -->
   <div class="space-y-2">
     <label for="email" class="label-text"> Correo electrónico </label>
@@ -29,11 +11,14 @@
         autocomplete="email"
         placeholder="tu@email.com"
         class="input-text"
+        formControlName="email"
+        [class.border-red-500]="emailControl?.invalid && emailControl?.touched"
       />
       <div class="absolute right-3 top-1/2 -translate-y-1/2">
         <i class="pi pi-envelope w-5 h-5 text-gray-400"></i>
       </div>
     </div>
+    <app-error-message [control]="emailControl" />
   </div>
 
   <!-- Campo Password -->
@@ -46,17 +31,49 @@
         type="password"
         name="password"
         required
-        autocomplete="current-password"
+        autocomplete="new-password"
         placeholder="••••••••"
         class="input-text"
+        formControlName="password"
+        [class.border-red-500]="
+          passwordControl?.invalid && passwordControl?.touched
+        "
       />
       <div class="absolute right-3 top-1/2 -translate-y-1/2">
         <i class="pi pi-lock w-5 h-5 text-gray-400"></i>
       </div>
     </div>
+    <app-error-message [control]="passwordControl" />
+  </div>
+
+  <!-- Campo Confirmar Password -->
+  <div class="space-y-2">
+    <label for="confirmPassword" class="label-text">
+      Confirmar Contraseña
+    </label>
+
+    <div class="relative">
+      <input
+        id="confirmPassword"
+        type="password"
+        name="confirmPassword"
+        required
+        autocomplete="new-password"
+        placeholder="••••••••"
+        class="input-text"
+        formControlName="confirmPassword"
+        [class.border-red-500]="
+          confirmPasswordControl?.invalid && confirmPasswordControl?.touched
+        "
+      />
+      <div class="absolute right-3 top-1/2 -translate-y-1/2">
+        <i class="pi pi-shield w-5 h-5 text-gray-400"></i>
+      </div>
+    </div>
+    <app-error-message [control]="confirmPasswordControl" />
   </div>
 
   <div class="pt-4">
-    <button type="submit" class="btn-primary">Iniciar Sesión</button>
+    <button type="submit" class="btn-primary">Registrarse</button>
   </div>
 </form>
