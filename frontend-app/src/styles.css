@@ -1,2 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'tailwindcss';
+
+.a-link {
+  @apply font-semibold text-orange-400 hover:text-orange-300 transition-colors duration-200 ml-1;
+}
+
+.input-text {
+  @apply block w-full rounded-xl bg-white/10 border border-white/20 px-4 py-3.5 text-white placeholder-gray-400 backdrop-blur-sm transition-all duration-200 focus:bg-white/20 focus:border-orange-400 focus:ring-2 focus:ring-orange-400/50 focus:outline-none hover:bg-white/15;
+}
