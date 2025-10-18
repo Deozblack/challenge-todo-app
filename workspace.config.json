@@ -1,0 +1,42 @@
+{
+  "name": "challenge-todo-app",
+  "version": "1.0.0",
+  "type": "monorepo",
+  "workspaces": {
+    "backend": {
+      "name": "Backend API (Express.js + TypeScript)",
+      "path": "./functions",
+      "type": "backend",
+      "framework": "express",
+      "language": "typescript",
+      "ports": {
+        "dev": 5001,
+        "emulator": 5001
+      },
+      "scripts": {
+        "dev": "pnpm run backend:dev",
+        "build": "pnpm run backend:build",
+        "serve": "pnpm run backend:serve"
+      }
+    },
+    "frontend": {
+      "name": "Frontend App (Angular 18)",
+      "path": "./frontend-app",
+      "type": "frontend",
+      "framework": "angular",
+      "language": "typescript",
+      "ports": {
+        "dev": 4200
+      },
+      "scripts": {
+        "dev": "pnpm run frontend:dev",
+        "build": "pnpm run frontend:build",
+        "test": "pnpm run frontend:test"
+      }
+    }
+  },
+  "defaultPorts": {
+    "backend": 5001,
+    "frontend": 4200
+  }
+}
