@@ -7,7 +7,7 @@ import { LoginFormComponent } from '../../components/login-form/login-form.compo
   selector: 'app-login-page',
   standalone: true,
   imports: [AuthLayout, LoginFormComponent, RouterModule],
-  templateUrl: './login-page.html',
+  templateUrl: './login-page.component.html',
   styles: ``,
 })
-export default class LoginPage {}
+export default class LoginPageComponent {}

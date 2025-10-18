@@ -1,10 +1,10 @@
 import { Component, input } from '@angular/core';
-import { Logo } from '../../shared/components/logo/logo';
+import { LogoComponent } from '../../shared/components/logo/logo.component';
 
 @Component({
   selector: 'app-auth-layout',
   standalone: true,
-  imports: [Logo],
+  imports: [LogoComponent],
   templateUrl: './auth-layout.html',
   styles: ``,
 })

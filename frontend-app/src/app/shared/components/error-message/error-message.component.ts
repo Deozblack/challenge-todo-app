@@ -8,7 +8,7 @@ type CustomErrorMessages = Record<string, string>;
   selector: 'app-error-message',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './error-message.html',
+  templateUrl: './error-message.component.html',
   styles: `
     .error-container {
       transition: all 0.3s ease;
@@ -30,7 +30,7 @@ type CustomErrorMessages = Record<string, string>;
     }
   `,
 })
-export class ErrorMessage {
+export class ErrorMessageComponent {
   public control = input.required<AbstractControl | null>();
   public customMessages = input<CustomErrorMessages>({});
 

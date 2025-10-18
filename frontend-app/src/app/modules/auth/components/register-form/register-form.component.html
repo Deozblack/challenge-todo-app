@@ -1,1 +1,62 @@
-<p>register-form works!</p>
+<form class="space-y-6">
+  <!-- Campo Name -->
+  <div class="space-y-2">
+    <label for="name" class="label-text"> Nombre completo </label>
+    <div class="relative">
+      <input
+        id="name"
+        type="text"
+        name="name"
+        required
+        placeholder="Jhon Doe"
+        class="input-text"
+      />
+      <div class="absolute right-3 top-1/2 -translate-y-1/2">
+        <i class="pi pi-user w-5 h-5 text-gray-400"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Campo Email -->
+  <div class="space-y-2">
+    <label for="email" class="label-text"> Correo electrónico </label>
+    <div class="relative">
+      <input
+        id="email"
+        type="email"
+        name="email"
+        required
+        autocomplete="email"
+        placeholder="tu@email.com"
+        class="input-text"
+      />
+      <div class="absolute right-3 top-1/2 -translate-y-1/2">
+        <i class="pi pi-envelope w-5 h-5 text-gray-400"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Campo Password -->
+  <div class="space-y-2">
+    <label for="password" class="label-text"> Contraseña </label>
+
+    <div class="relative">
+      <input
+        id="password"
+        type="password"
+        name="password"
+        required
+        autocomplete="current-password"
+        placeholder="••••••••"
+        class="input-text"
+      />
+      <div class="absolute right-3 top-1/2 -translate-y-1/2">
+        <i class="pi pi-lock w-5 h-5 text-gray-400"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="pt-4">
+    <button type="submit" class="btn-primary">Iniciar Sesión</button>
+  </div>
+</form>

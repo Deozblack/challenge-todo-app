@@ -1,11 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'animate.css';
 @import 'tailwindcss';
 @plugin "tailwindcss-primeui";
+@import 'primeicons/primeicons.css';
 
 .a-link {
   @apply font-semibold text-orange-400 hover:text-orange-300 transition-colors duration-200 ml-1;
 }
 
+.label-text {
+  @apply block text-sm font-medium text-gray-200;
+}
+
 .input-text {
-  @apply block w-full rounded-xl bg-white/10 border border-white/20 px-4 py-3.5 text-white placeholder-gray-400 backdrop-blur-sm transition-all duration-200 focus:bg-white/20 focus:border-orange-400 focus:ring-2 focus:ring-orange-400/50 focus:outline-none hover:bg-white/15;
+  @apply block w-full rounded-xl bg-white/10 border border-white/20 px-3 py-2 text-white placeholder-gray-400 backdrop-blur-sm transition-all duration-200 focus:bg-white/20 focus:border-orange-400 focus:ring-2 focus:ring-orange-400/50 focus:outline-none hover:bg-white/15;
+}
+
+.btn-primary {
+  @apply relative w-full flex justify-center py-2 px-3 border border-transparent rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl cursor-pointer;
 }
