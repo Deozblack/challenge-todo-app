@@ -17,15 +17,14 @@ export class TaskUserId {
       throw new Error('Task: [userId] cannot be empty string');
     }
 
-    if (!this.isValidUUID(this.value)) {
-      throw new Error('Task: [userId] must be a valid UUID');
+    if (!this.isValidFirebaseUID(this.value)) {
+      throw new Error('Task: [userId] must be a valid Firebase UID');
     }
   }
 
-  private isValidUUID(uuid: string): boolean {
-    const UUID_V4_REGEX =
-      /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  private isValidFirebaseUID(uid: string): boolean {
+    const FIREBASE_UID_REGEX = /^[a-zA-Z0-9]{20,40}$/;
 
-    return uuid.length === 36 && UUID_V4_REGEX.test(uuid);
+    return uid.length >= 20 && uid.length <= 40 && FIREBASE_UID_REGEX.test(uid);
   }
 }
