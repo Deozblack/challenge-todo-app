@@ -46,15 +46,15 @@ export class LoginFormComponent {
     this.authService.login$(email!, password!).subscribe({
       next: () => {
         this.router.navigate(['/dashboard']);
+        this.isLoading.set(false);
       },
-      error: () => {
+      error: (error) => {
+        this.isLoading.set(false);
         this.alertService.createAlert({
           icon: 'error',
           message: 'Credenciales inválidas. Inténtalo de nuevo.',
         });
-      },
-      complete: () => {
-        this.isLoading.set(false);
+        console.error('Invalid credentials', error);
       },
     });
   }
