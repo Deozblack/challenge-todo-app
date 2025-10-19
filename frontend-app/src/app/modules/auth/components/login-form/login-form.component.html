@@ -1,6 +1,6 @@
-<form class="space-y-6" [formGroup]="loginForm" (submit)="login()">
+<form class="flex flex-col gap-y-6" [formGroup]="loginForm" (submit)="login()">
   <!-- Campo Email -->
-  <div class="space-y-2">
+  <div class="flex flex-col gap-y-2">
     <label for="email" class="label-text"> Correo electrónico </label>
     <div class="relative">
       <input
@@ -22,7 +22,7 @@
   </div>
 
   <!-- Campo Password -->
-  <div class="space-y-2">
+  <div class="flex flex-col gap-y-2">
     <label for="password" class="label-text"> Contraseña </label>
 
     <div class="relative">
