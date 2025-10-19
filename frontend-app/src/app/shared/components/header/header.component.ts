@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../modules/auth/services/auth.service';
 import { LogoComponent } from '../logo/logo.component';
 
 interface User {
@@ -16,6 +17,7 @@ interface User {
   styles: ``,
 })
 export class HeaderComponent {
+  private authServie = inject(AuthService);
   private router = inject(Router);
   currentUser: User = {
     id: '1',
@@ -24,13 +26,13 @@ export class HeaderComponent {
   };
 
   logout(): void {
-    // Aquí iría la lógica de logout real
-    console.log('Logging out...');
-
-    // Limpiar datos de usuario (localStorage, sessionStorage, etc.)
-    // this.authService.logout();
-
-    // Navegar al login
-    this.router.navigate(['/login']);
+    this.authServie.logout$().subscribe({
+      next: () => {
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('Error logging out:', err);
+      },
+    });
   }
 }
