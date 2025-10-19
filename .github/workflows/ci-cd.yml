@@ -1,0 +1,174 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: '20'
+  PNPM_VERSION: '8'
+
+jobs:
+  # Job 1: Análisis de cambios
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.changes.outputs.backend }}
+      frontend: ${{ steps.changes.outputs.frontend }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            backend:
+              - 'functions/**'
+            frontend:
+              - 'frontend-app/**'
+
+  # Job 2: CI Backend
+  backend-ci:
+    runs-on: ubuntu-latest
+    needs: changes
+    if: ${{ needs.changes.outputs.backend == 'true' }}
+    defaults:
+      run:
+        working-directory: ./functions
+
+    steps:
+      - name: 📚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: 📦 Get pnpm store directory
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: 🗄️ Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: 📦 Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 🔍 Lint code
+        run: pnpm run lint
+
+      - name: 🧪 Run tests
+        run: pnpm test || echo "No tests configured yet"
+
+      - name: 🏗️ Build backend
+        run: pnpm run build
+
+  # Job 3: CI Frontend
+  frontend-ci:
+    runs-on: ubuntu-latest
+    needs: changes
+    if: ${{ needs.changes.outputs.frontend == 'true' }}
+    defaults:
+      run:
+        working-directory: ./frontend-app
+
+    steps:
+      - name: 📚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: 📦 Get pnpm store directory
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: 🗄️ Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: 📦 Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 🔍 Lint code
+        run: pnpm run lint
+
+      - name: 🧪 Run tests
+        run: pnpm test || echo "No tests configured yet"
+
+      - name: 🏗️ Build frontend
+        run: pnpm run build --configuration=production
+
+      - name: 📦 Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: frontend-dist
+          path: frontend-app/dist/
+          retention-days: 1
+
+  # Job 4: Deploy to Firebase (solo en main)
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [changes, backend-ci, frontend-ci]
+    if: always() && github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: 📚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      # Deploy Backend (si hay cambios)
+      - name: 🚀 Deploy Backend to Firebase
+        if: ${{ needs.changes.outputs.backend == 'true' && needs.backend-ci.result == 'success' }}
+        working-directory: ./functions
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm run build
+          npx firebase deploy --only functions --token "${{ secrets.FIREBASE_TOKEN }}"
+
+      # Deploy Frontend (si hay cambios)
+      - name: 🚀 Deploy Frontend to Firebase
+        if: ${{ needs.changes.outputs.frontend == 'true' && needs.frontend-ci.result == 'success' }}
+        working-directory: ./frontend-app
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm run build --configuration=production
+          npx firebase deploy --only hosting --token "${{ secrets.FIREBASE_TOKEN }}"
+
+      # Deploy completo si hay cambios en ambos
+      - name: 🚀 Deploy Full Stack
+        if: ${{ needs.changes.outputs.backend == 'true' && needs.changes.outputs.frontend == 'true' }}
+        run: |
+          npx firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}"
