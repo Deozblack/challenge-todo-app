@@ -74,6 +74,10 @@
   </div>
 
   <div class="pt-4">
-    <button type="submit" class="btn-primary">Registrarse</button>
+    @if (isLoading()) {
+      <app-spinner />
+    } @else {
+      <button type="submit" class="btn-primary">Registrarse</button>
+    }
   </div>
 </form>

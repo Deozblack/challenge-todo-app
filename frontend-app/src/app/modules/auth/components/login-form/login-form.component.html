@@ -47,6 +47,10 @@
   </div>
 
   <div class="pt-4">
-    <button type="submit" class="btn-primary">Iniciar Sesión</button>
+    @if (isLoading()) {
+      <app-spinner />
+    } @else {
+      <button type="submit" class="btn-primary">Iniciar Sesión</button>
+    }
   </div>
 </form>
