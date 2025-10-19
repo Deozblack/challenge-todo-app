@@ -1,42 +1,40 @@
-import { Component } from '@angular/core';
-
-interface Task {
-  id: string;
-  title: string;
-  description: string;
-  completed: boolean;
-  createdAt: Date;
-}
+import { DatePipe } from '@angular/common';
+import { Component, computed, inject } from '@angular/core';
+import { DialogService } from '../../../../core/services/dialog.service';
+import { TaskService } from '../../services/task.service';
+import { Task } from '../../types/task';
 
 @Component({
   selector: 'app-tasks-list',
   standalone: true,
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './tasks-list.component.html',
   styles: ``,
 })
 export class TasksListComponent {
-  tasks: Task[] = [
-    {
-      id: '1',
-      title: 'Revisar emails',
-      description: 'Responder emails importantes del día',
-      completed: false,
-      createdAt: new Date('2024-10-18T09:00:00'),
-    },
-    {
-      id: '2',
-      title: 'Preparar presentación',
-      description: 'Crear slides para la reunión de mañana',
-      completed: true,
-      createdAt: new Date('2024-10-18T10:30:00'),
-    },
-    {
-      id: '3',
-      title: 'Llamar al cliente',
-      description: 'Seguimiento del proyecto X',
-      completed: false,
-      createdAt: new Date('2024-10-18T14:15:00'),
-    },
-  ];
+  private taskService = inject(TaskService);
+  private dialogService = inject(DialogService);
+
+  public tasks = computed(() => this.taskService.tasks());
+
+  toggleTaskCompleted(taskId: Task): void {
+    this.taskService.toggleTaskCompleted$(taskId).subscribe({
+      next: () => {
+        console.log('Estado de tarea actualizado');
+      },
+      error: (error) => {
+        console.error('Error al actualizar el estado de la tarea:', error);
+      },
+    });
+  }
+
+  openDeleteDialog(taskId: string): void {
+    this.taskService.setSelectedTaskId(taskId);
+    this.dialogService.openDeleteTaskDialog();
+  }
+
+  openUpdateDialog(taskId: string): void {
+    this.taskService.setSelectedTaskId(taskId);
+    this.dialogService.openUpdateTaskDialog();
+  }
 }

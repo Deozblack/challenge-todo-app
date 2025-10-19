@@ -2,20 +2,59 @@
   header="Actualizar Tarea"
   [modal]="true"
   [(visible)]="visibleState"
-  [style]="{ width: '25rem' }"
+  [style]="{ width: '30rem' }"
   (onHide)="closeDialog()"
 >
-  <span class="p-text-secondary block mb-8">
-    Actualiza la información de la tarea.
-  </span>
+  <div class="w-full">
+    <form
+      class="space-y-4"
+      [formGroup]="updateTaskForm"
+      (submit)="updateTask()"
+    >
+      <div>
+        <label for="title" class="label-text mb-2"> Título de la tarea </label>
+        <input
+          id="title"
+          type="text"
+          formControlName="title"
+          placeholder="Ej: Revisar emails"
+          class="input-text"
+          [class.border-red-500]="
+            titleControl?.invalid && titleControl?.touched
+          "
+        />
+        <app-error-message [control]="titleControl" />
+      </div>
 
-  <!-- Aquí irá el formulario cuando lo implementes -->
-  <div class="mb-4">
-    <p>Formulario de actualizar tarea aquí...</p>
-  </div>
+      <div>
+        <label for="description" class="label-text mb-2"> Descripción </label>
+        <textarea
+          id="description"
+          formControlName="description"
+          rows="5"
+          placeholder="Describe los detalles de la tarea..."
+          class="input-text"
+          [class.border-red-500]="
+            descriptionControl?.invalid && descriptionControl?.touched
+          "
+        ></textarea>
+        <app-error-message [control]="descriptionControl" />
+      </div>
 
-  <div class="flex justify-end gap-2">
-    <button (click)="closeDialog()" type="button">Cancelar</button>
-    <button type="button" class="btn-primary">Actualizar Tarea</button>
+      @if (isLoading()) {
+        <app-spinner />
+      } @else {
+        <div class="flex justify-end gap-2 mt-5">
+          <div class="w-1/2">
+            <button (click)="closeDialog()" type="button" class="btn-secondary">
+              Cancelar
+            </button>
+          </div>
+          <div class="w-1/2">
+            <button type="submit" class="btn-primary">Actualizar Tarea</button>
+          </div>
+        </div>
+      }
+    </form>
   </div>
 </p-dialog>

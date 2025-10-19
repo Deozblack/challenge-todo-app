@@ -1,0 +1,42 @@
+<p-dialog
+  header="Eliminar Tarea"
+  [modal]="true"
+  [(visible)]="visibleState"
+  [style]="{ width: '25rem' }"
+  (onHide)="closeDialog()"
+>
+  @if (selectedTask) {
+    <div class="text-center">
+      <i class="pi pi-exclamation-triangle text-red-500 text-4xl mb-4"></i>
+
+      <h3 class="text-lg font-semibold mb-2">¿Estás seguro?</h3>
+
+      <div class="bg-white/20 p-3 rounded-lg mb-4 text-left">
+        <p class="font-medium text-white text-center line-clamp-2">
+          {{ selectedTask.title }}
+        </p>
+      </div>
+
+      <p class="text-gray-600 text-sm mb-6">
+        Esta acción no se puede deshacer.
+      </p>
+    </div>
+  }
+
+  @if (isLoading()) {
+    <app-spinner />
+  } @else {
+    <div class="flex justify-end gap-2">
+      <div class="w-1/2">
+        <button (click)="closeDialog()" type="button" class="btn-secondary">
+          Cancelar
+        </button>
+      </div>
+      <div class="w-1/2">
+        <button (click)="deleteTask()" type="button" class="btn-primary">
+          Eliminar
+        </button>
+      </div>
+    </div>
+  }
+</p-dialog>

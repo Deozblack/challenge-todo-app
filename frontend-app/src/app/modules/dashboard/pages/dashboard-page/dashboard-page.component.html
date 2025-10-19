@@ -13,14 +13,18 @@
       <div class="space-y-4 w-full">
         <div class="flex items-center justify-between">
           <h2 class="text-2xl font-semibold text-white">
-            Mis Tareas ({{ tasks.length }})
+            Mis Tareas ({{ tasks().length }})
           </h2>
 
           <!-- Filtros rápidos -->
           <div class="flex space-x-2">
-            <span class="text-sm text-gray-300"> Completadas: 1 </span>
+            <span class="text-sm text-gray-300">
+              Completadas: {{ getTasksCompletedCount() }}
+            </span>
             <span class="text-gray-500">|</span>
-            <span class="text-sm text-gray-300"> Pendientes: 2 </span>
+            <span class="text-sm text-gray-300">
+              Pendientes: {{ getTasksPendingCount() }}
+            </span>
           </div>
         </div>
 
@@ -33,4 +37,5 @@
   <!-- Dialogs -->
   <app-create-task-dialog />
   <app-update-task-dialog />
+  <app-delete-task-dialog />
 </app-dashboard-layout>

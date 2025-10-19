@@ -1,74 +1,80 @@
-<div class="grid gap-4 md:grid-cols-4 lg:grid-cols-4">
-  @for (task of tasks; track $index) {
-    <div
-      class="col-span-1 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-200 group"
-      [class.opacity-75]="task.completed"
-    >
-      <div class="flex items-start justify-between mb-4">
-        <div class="flex items-center space-x-3 flex-1">
-          <input
-            type="checkbox"
-            [checked]="task.completed"
-            class="w-5 h-5 text-orange-500 bg-white/10 border-white/20 rounded focus:ring-orange-500/50 focus:ring-2"
-          />
+@if (tasks().length > 0) {
+  <div
+    class="animate__animated animate__fadeIn grid gap-4 md:grid-cols-4 lg:grid-cols-4"
+  >
+    @for (task of tasks(); track $index) {
+      <div
+        class="col-span-1 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-200 group flex flex-col h-full"
+        [class.opacity-75]="task.completed"
+      >
+        <div class="flex items-start justify-between mb-2">
+          <div class="flex items-center space-x-3 flex-1">
+            <input
+              type="checkbox"
+              [checked]="task.completed"
+              (change)="toggleTaskCompleted(task)"
+              class="w-4 h-4 text-orange-500 bg-white/10 border-white/20 rounded focus:ring-orange-500/50 focus:ring-2 cursor-pointer"
+            />
 
-          <h3
-            class="font-semibold text-white group-hover:text-orange-200 transition-colors duration-200"
-            [class.line-through]="task.completed"
-          >
-            {{ task.title }}
-          </h3>
+            <h3
+              class="font-semibold text-white group-hover:text-orange-200 transition-colors duration-200"
+              [class.line-through]="task.completed"
+            >
+              {{ task.title }}
+            </h3>
+          </div>
         </div>
+
+        <div class="mb-2">
+          <span
+            class="px-2 py-1 rounded-full text-xs font-medium"
+            [class]="
+              task.completed
+                ? 'bg-green-500/20 text-green-400'
+                : 'bg-yellow-500/20 text-yellow-400'
+            "
+          >
+            {{ task.completed ? 'Completada' : 'Pendiente' }}
+          </span>
+        </div>
+
+        <p
+          class="text-gray-300 text-sm flex-grow mb-4"
+          [class.line-through]="task.completed"
+        >
+          {{ task.description }}
+        </p>
 
         <div
-          class="flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+          class="flex items-center justify-between text-xs text-gray-400 mt-auto"
         >
-          <button
-            class="p-2 text-gray-400 hover:text-orange-400 transition-colors duration-200"
-            title="Editar tarea"
-          >
-            <i class="pi pi-pencil w-4 h-4"></i>
-          </button>
+          <span>Creada: {{ task.createdAt | date: 'shortDate' }}</span>
+          <div class="flex space-x-2 transition-opacity duration-200">
+            <button
+              (click)="openUpdateDialog(task.id)"
+              class="p-2 text-gray-400 hover:text-orange-400 transition-colors duration-200 cursor-pointer"
+              title="Editar tarea"
+            >
+              <i class="pi pi-pencil w-4 h-4"></i>
+            </button>
 
-          <button
-            class="p-2 text-gray-400 hover:text-red-400 transition-colors duration-200"
-            title="Eliminar tarea"
-          >
-            <i class="pi pi-trash w-4 h-4"></i>
-          </button>
+            <button
+              (click)="openDeleteDialog(task.id)"
+              class="p-2 text-gray-400 hover:text-red-400 transition-colors duration-200 cursor-pointer"
+              title="Eliminar tarea"
+            >
+              <i class="pi pi-trash w-4 h-4"></i>
+            </button>
+          </div>
         </div>
       </div>
-
-      <p
-        class="text-gray-300 text-sm mb-4"
-        [class.line-through]="task.completed"
-      >
-        {{ task.description }}
-      </p>
-
-      <div class="flex items-center justify-between text-xs text-gray-400">
-        <span>Creada: {{ task.createdAt }}</span>
-        <span
-          class="px-2 py-1 rounded-full text-xs font-medium"
-          [class]="
-            task.completed
-              ? 'bg-green-500/20 text-green-400'
-              : 'bg-yellow-500/20 text-yellow-400'
-          "
-        >
-          {{ task.completed ? 'Completada' : 'Pendiente' }}
-        </span>
-      </div>
-    </div>
-  }
-</div>
-
-<!-- Mensaje cuando no hay tareas -->
-@if (tasks.length === 0) {
+    }
+  </div>
+} @else {
   <div
-    class="text-center py-12 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10"
+    class="animate__animated animate__fadeIn text-center py-12 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10"
   >
-    <i class="pi pi-calendar w-12 h-12 text-gray-400 mx-auto mb-4"></i>
+    <i class="pi pi-calendar w-6 h-6 text-gray-400"></i>
     <h3 class="text-lg font-medium text-gray-300 mb-2">No hay tareas aún</h3>
     <p class="text-gray-400">¡Agrega tu primera tarea para comenzar!</p>
   </div>
