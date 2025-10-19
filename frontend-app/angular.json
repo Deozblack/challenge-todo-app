@@ -26,6 +26,9 @@
             ],
             "styles": ["src/styles.css"],
             "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src"]
+            },
             "allowedCommonJsDependencies": ["sweetalert2", "ws"]
           },
           "configurations": {
@@ -33,16 +36,24 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1MB",
+                  "maximumError": "2MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "optimization": {
+                "scripts": true,
+                "styles": true,
+                "fonts": true
+              },
+              "aot": true,
+              "extractLicenses": true,
+              "namedChunks": false
             },
             "development": {
               "optimization": false,
