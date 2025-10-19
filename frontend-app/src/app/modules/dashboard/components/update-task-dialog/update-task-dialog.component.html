@@ -1,0 +1,21 @@
+<p-dialog
+  header="Actualizar Tarea"
+  [modal]="true"
+  [(visible)]="visibleState"
+  [style]="{ width: '25rem' }"
+  (onHide)="closeDialog()"
+>
+  <span class="p-text-secondary block mb-8">
+    Actualiza la información de la tarea.
+  </span>
+
+  <!-- Aquí irá el formulario cuando lo implementes -->
+  <div class="mb-4">
+    <p>Formulario de actualizar tarea aquí...</p>
+  </div>
+
+  <div class="flex justify-end gap-2">
+    <button (click)="closeDialog()" type="button">Cancelar</button>
+    <button type="button" class="btn-primary">Actualizar Tarea</button>
+  </div>
+</p-dialog>

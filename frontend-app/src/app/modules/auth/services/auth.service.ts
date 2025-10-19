@@ -43,10 +43,6 @@ export class AuthService {
     return from(promise);
   }
 
-  getCurrentUser$(): Observable<User | null> {
-    return authState(this.auth);
-  }
-
   getCurrentUser() {
     return this.user;
   }

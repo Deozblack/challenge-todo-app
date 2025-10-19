@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { DialogService } from '../../../../core/services/dialog.service';
 import DashboardLayoutComponent from '../../../../layouts/dashboard-layout/dashboard-layout.component';
+import { CreateTaskDialogComponent } from '../../components/create-taks-dialog/create-task-dialog.component';
 import { TasksListComponent } from '../../components/tasks-list/tasks-list.component';
+import { UpdateTaskDialogComponent } from '../../components/update-task-dialog/update-task-dialog.component';
 
 interface Task {
   id: string;
@@ -13,12 +16,19 @@ interface Task {
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
-  imports: [DashboardLayoutComponent, TasksListComponent],
+  imports: [
+    DashboardLayoutComponent,
+    TasksListComponent,
+    CreateTaskDialogComponent,
+    UpdateTaskDialogComponent,
+  ],
   templateUrl: './dashboard-page.component.html',
   styles: ``,
 })
 export default class DashboardPageComponent {
-  tasks: Task[] = [
+  private dialogService = inject(DialogService);
+
+  public tasks: Task[] = [
     {
       id: '1',
       title: 'Revisar emails',
@@ -41,4 +51,12 @@ export default class DashboardPageComponent {
       createdAt: new Date('2024-10-18T14:15:00'),
     },
   ];
+
+  showCreateDialog() {
+    this.dialogService.openCreateTaskDialog();
+  }
+
+  showUpdateDialog() {
+    this.dialogService.openUpdateTaskDialog();
+  }
 }
