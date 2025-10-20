@@ -3,6 +3,11 @@ import { authGuard, noAuthGuard } from './core/guards';
 
 export const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full',
+  },
+  {
     path: 'login',
     title: 'Login - Todo App',
     canActivate: [noAuthGuard],
@@ -28,11 +33,6 @@ export const routes: Routes = [
       import(
         './modules/dashboard/pages/dashboard-page/dashboard-page.component'
       ),
-  },
-  {
-    path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full',
   },
   {
     path: '**',

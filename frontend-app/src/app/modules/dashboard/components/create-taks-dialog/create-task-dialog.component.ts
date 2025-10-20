@@ -73,6 +73,7 @@ export class CreateTaskDialogComponent {
           this.alertService.createAlert({
             icon: 'success',
             message: 'Tarea creada exitosamente.',
+            position: 'bottom',
           });
           this.isLoading.set(false);
         },
@@ -80,6 +81,7 @@ export class CreateTaskDialogComponent {
           this.alertService.createAlert({
             icon: 'error',
             message: 'Error al crear la tarea. Por favor, inténtalo de nuevo.',
+            position: 'bottom',
           });
           console.error('Error creating task:', error);
           this.isLoading.set(false);
