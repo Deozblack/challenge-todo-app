@@ -105,15 +105,26 @@ export class TaskService {
   }
 
   findAllTasks$(): Observable<Task[]> {
-    return this.http$.get<Task[]>(`${this.apiUrl}/tasks`).pipe(
+    const user = this.authService.getCurrentUser();
+    const userId = user()?.uid;
+
+    return this.http$.get<Task[]>(`${this.apiUrl}/tasks/user/${userId}`).pipe(
       map((tasks) => {
         const formattedTasks = tasks.map((task) => ({
           ...task,
           createdAt: new Date(task.createdAt),
           updatedAt: new Date(task.updatedAt),
         }));
-        this._tasks.set(formattedTasks);
-        return formattedTasks;
+
+        const sortedTasks = formattedTasks.sort((a, b) => {
+          if (a.completed !== b.completed) {
+            return a.completed ? 1 : -1;
+          }
+          return b.updatedAt.getTime() - a.updatedAt.getTime();
+        });
+
+        this._tasks.set(sortedTasks);
+        return sortedTasks;
       })
     );
   }
