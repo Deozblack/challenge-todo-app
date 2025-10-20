@@ -111,7 +111,12 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: 📦 Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: |
+          if [ -f pnpm-lock.yaml ]; then
+            pnpm install --frozen-lockfile
+          else
+            pnpm install --no-frozen-lockfile
+          fi
 
       - name: 🔍 Lint code
         run: pnpm run lint
@@ -154,7 +159,11 @@ jobs:
         if: ${{ needs.changes.outputs.backend == 'true' && needs.backend-ci.result == 'success' }}
         working-directory: ./functions
         run: |
-          pnpm install --frozen-lockfile
+          if [ -f pnpm-lock.yaml ]; then
+            pnpm install --frozen-lockfile
+          else
+            pnpm install --no-frozen-lockfile
+          fi
           pnpm run build
           npx firebase deploy --only functions --token "${{ secrets.FIREBASE_TOKEN }}"
 
@@ -163,7 +172,11 @@ jobs:
         if: ${{ needs.changes.outputs.frontend == 'true' && needs.frontend-ci.result == 'success' }}
         working-directory: ./frontend-app
         run: |
-          pnpm install --frozen-lockfile
+          if [ -f pnpm-lock.yaml ]; then
+            pnpm install --frozen-lockfile
+          else
+            pnpm install --no-frozen-lockfile
+          fi
           pnpm run build --configuration=production
           npx firebase deploy --only hosting --token "${{ secrets.FIREBASE_TOKEN }}"
 
