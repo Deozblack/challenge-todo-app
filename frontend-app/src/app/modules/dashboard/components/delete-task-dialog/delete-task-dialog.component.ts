@@ -50,6 +50,7 @@ export class DeleteTaskDialogComponent {
           icon: 'success',
           message: 'Tarea eliminada correctamente.',
         });
+        this.isLoading.set(false);
       },
       error: (error) => {
         this.alertService.createAlert({
@@ -58,9 +59,6 @@ export class DeleteTaskDialogComponent {
         });
         this.isLoading.set(false);
         console.error('Error deleting task:', error);
-      },
-      complete: () => {
-        this.isLoading.set(false);
       },
     });
   }

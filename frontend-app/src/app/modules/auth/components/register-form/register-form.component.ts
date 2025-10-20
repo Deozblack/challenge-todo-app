@@ -56,8 +56,10 @@ export class RegisterFormComponent {
     this.authService.signUp$(email!, password!).subscribe({
       next: () => {
         this.router.navigate(['/dashboard']);
+        this.isLoading.set(false);
       },
       error: (error) => {
+        this.isLoading.set(false);
         if (error?.code === 'auth/email-already-in-use') {
           this.alertService.createAlert({
             icon: 'error',
@@ -70,9 +72,7 @@ export class RegisterFormComponent {
           icon: 'error',
           message: 'Error al registrar el usuario. Inténtalo de nuevo.',
         });
-      },
-      complete: () => {
-        this.isLoading.set(false);
+        console.error('Error registering user', error);
       },
     });
   }

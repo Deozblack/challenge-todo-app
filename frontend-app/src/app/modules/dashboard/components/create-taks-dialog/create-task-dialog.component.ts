@@ -74,16 +74,14 @@ export class CreateTaskDialogComponent {
             icon: 'success',
             message: 'Tarea creada exitosamente.',
           });
+          this.isLoading.set(false);
         },
-        error: (err) => {
+        error: (error) => {
           this.alertService.createAlert({
             icon: 'error',
             message: 'Error al crear la tarea. Por favor, inténtalo de nuevo.',
           });
-          console.error('Error creating task:', err);
-          this.isLoading.set(false);
-        },
-        complete: () => {
+          console.error('Error creating task:', error);
           this.isLoading.set(false);
         },
       });

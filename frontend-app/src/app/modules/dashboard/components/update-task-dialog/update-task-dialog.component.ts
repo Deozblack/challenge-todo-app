@@ -116,6 +116,7 @@ export class UpdateTaskDialogComponent {
             icon: 'success',
             message: 'Tarea actualizada exitosamente.',
           });
+          this.isLoading.set(false);
         },
         error: (err) => {
           this.alertService.createAlert({
@@ -124,9 +125,6 @@ export class UpdateTaskDialogComponent {
               'Error al actualizar la tarea. Por favor, inténtalo de nuevo.',
           });
           console.error('Error updating task:', err);
-          this.isLoading.set(false);
-        },
-        complete: () => {
           this.isLoading.set(false);
         },
       });
