@@ -162,6 +162,9 @@ jobs:
         with:
           version: ${{ env.PNPM_VERSION }}
 
+      - name: 🔥 Install Firebase CLI
+        run: pnpm add -g firebase-tools
+
       # Deploy Backend (si hay cambios)
       - name: 🚀 Deploy Backend to Firebase
         if: ${{ needs.changes.outputs.backend == 'true' && needs.backend-ci.result == 'success' }}
@@ -174,7 +177,7 @@ jobs:
             pnpm install --no-frozen-lockfile
           fi
           pnpm run build
-          npx firebase deploy --only functions --token "${{ secrets.FIREBASE_TOKEN }}"
+          firebase deploy --only functions --token "${{ secrets.FIREBASE_TOKEN }}"
 
       # Deploy Frontend (si hay cambios)
       - name: 🚀 Deploy Frontend to Firebase
@@ -188,10 +191,10 @@ jobs:
             pnpm install --no-frozen-lockfile
           fi
           pnpm run build --configuration=production
-          npx firebase deploy --only hosting --token "${{ secrets.FIREBASE_TOKEN }}"
+          firebase deploy --only hosting --token "${{ secrets.FIREBASE_TOKEN }}"
 
       # Deploy completo si hay cambios en ambos
       - name: 🚀 Deploy Full Stack
         if: ${{ needs.changes.outputs.backend == 'true' && needs.changes.outputs.frontend == 'true' }}
         run: |
-          npx firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}"
+          firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}"
