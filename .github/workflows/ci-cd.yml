@@ -168,8 +168,8 @@ jobs:
       # Deploy Backend (si hay cambios)
       - name: 🚀 Deploy Backend to Firebase
         if: ${{ needs.changes.outputs.backend == 'true' && needs.backend-ci.result == 'success' }}
-        working-directory: ./functions
         run: |
+          cd functions
           if pnpm install --frozen-lockfile 2>/dev/null; then
             echo "✅ Backend installed with frozen lockfile"
           else
@@ -177,13 +177,14 @@ jobs:
             pnpm install --no-frozen-lockfile
           fi
           pnpm run build
+          cd ..
           firebase deploy --only functions --token "${{ secrets.FIREBASE_TOKEN }}"
 
       # Deploy Frontend (si hay cambios)
       - name: 🚀 Deploy Frontend to Firebase
         if: ${{ needs.changes.outputs.frontend == 'true' && needs.frontend-ci.result == 'success' }}
-        working-directory: ./frontend-app
         run: |
+          cd frontend-app
           if pnpm install --frozen-lockfile 2>/dev/null; then
             echo "✅ Frontend installed with frozen lockfile"
           else
@@ -191,6 +192,7 @@ jobs:
             pnpm install --no-frozen-lockfile
           fi
           pnpm run build --configuration=production
+          cd ..
           firebase deploy --only hosting --token "${{ secrets.FIREBASE_TOKEN }}"
 
       # Deploy completo si hay cambios en ambos
