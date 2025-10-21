@@ -130,7 +130,7 @@ jobs:
         run: pnpm run lint
 
       - name: 🧪 Run tests
-        run: echo "⏭️ Frontend tests skipped (not configured for CI yet)"
+        run: pnpm run test:ci
 
       - name: 🏗️ Build frontend
         run: pnpm run build --configuration=production
